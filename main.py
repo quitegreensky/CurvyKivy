@@ -27,7 +27,7 @@ class MyBox(BoxLayout, EventDispatcher):
     drag_distance = NumericProperty("100dp")
     curve_pos = ListProperty([0, 0])
     start_pos = ListProperty([0, 0])
-    end_pos = ListProperty([0, 0])
+    end_pos = ListProperty([0, 1000])
 
     indices = ListProperty()
     vertices = ListProperty()
@@ -36,6 +36,10 @@ class MyBox(BoxLayout, EventDispatcher):
 
     def __init__(self, **kw):
         super().__init__(**kw)
+        # self.register_event_type("on_finish")
+        # self.register_event_type("on_start")
+        # self.register_event_type("on_right_finish")
+        # self.register_event_type("on_left_finish")
 
     def update_mesh(self, start, end, pos):
         res = []
@@ -97,13 +101,13 @@ class MyBox(BoxLayout, EventDispatcher):
         anim = Animation(
             curve_pos=curve_pos,
             t="out_quad",
-            d=0.8,
+            d=0.3,
         )
         anim2 = Animation(d=0.2) + Animation(
             start_pos=start_pos,
             end_pos=end_pos,
-            t="out_quad",
-            d=0.5,
+            t="in_quad",
+            d=0.3,
         )
         anim.start(self)
         anim2.start(self)
