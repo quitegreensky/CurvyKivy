@@ -4,6 +4,7 @@ from kivymd.theming import ThemableBehavior
 from kivy.lang.builder import Builder
 from kivy.event import EventDispatcher
 from kivy.properties import NumericProperty, ListProperty
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.animation import Animation
 
@@ -11,25 +12,35 @@ Builder.load_string(
     """
 
 <CurveLayout>:
-    canvas:
-        Color:
-            rgba: 1,1,1,1
-        Rectangle:
-            pos: self.pos
-            size: self.size 
-            source: 
-        Color:
-            rgba: root.color if root.color else root.theme_cls.primary_color
-        Mesh:
-            mode: "triangle_fan"
-            vertices: root.vertices
-            indices: root.indices
+
+    BoxLayout:
+        id: backlayout
+
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: root.color if root.color else root.theme_cls.primary_color
+            Mesh:
+                mode: "triangle_fan"
+                vertices: root.vertices
+                indices: root.indices
+
+    BoxLayout:
+        id: frontlayout
 
     """
 )
 
 
-class CurveLayout(ThemableBehavior, BoxLayout, EventDispatcher):
+class FrontLayout(BoxLayout):
+    pass
+
+
+class BackLayout(BoxLayout):
+    pass
+
+
+class CurveLayout(ThemableBehavior, FloatLayout, EventDispatcher):
     drag_distance = NumericProperty("100dp")
     curve_pos = ListProperty([0, 0])
     start_pos = ListProperty([0, 0])
@@ -149,3 +160,14 @@ class CurveLayout(ThemableBehavior, BoxLayout, EventDispatcher):
     def reset_anim(self, curve_pos):
         anim = Animation(curve_pos=curve_pos, t="out_quad", d=0.2)
         anim.start(self)
+
+    def add_widget(self, widget, **kw):
+        if issubclass(widget.__class__, FrontLayout):
+            self.ids.frontlayout.add_widget(widget)
+            return True
+
+        elif issubclass(widget.__class__, BackLayout):
+            self.ids.backlayout.add_widget(widget)
+            return True
+
+        return super().add_widget(widget)

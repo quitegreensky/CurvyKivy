@@ -1,11 +1,21 @@
 from kivymd.app import MDApp
 from kivy.lang.builder import Builder
-from curvelayout import CurveLayout
+from curvelayout import CurveLayout, FrontLayout, BackLayout
+
+
+kv= """
+CurveLayout:
+    
+    FrontLayout:
+
+    BackLayout:
+
+"""
 
 
 class MeshTestApp(MDApp):
     def build(self):
-        return CurveLayout()
+        return Builder.load_string(kv)
 
 
 if __name__ == "__main__":
