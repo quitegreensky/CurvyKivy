@@ -6,12 +6,12 @@ from kivymd.uix.label import MDLabel
 Builder.load_string(
     """
 <MyLabel>:
-    adaptive_size: True
+    adaptive_width: True
     text: "Text"
     halign: "center"
     theme_text_color: "Custom"
     text_color: 1,1,1,1
-    font_name: "assets/regular.otf" if root.font_type=="regular" else "assets/light.otf"
+    font_name: "assets/regular.otf" if root.font_type=="regular" else "assets/bold.otf"
 
     """
 )
