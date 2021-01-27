@@ -8,6 +8,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.animation import Animation
 
+
 Builder.load_string(
     """
 
@@ -32,11 +33,11 @@ Builder.load_string(
 )
 
 
-class FrontLayout(BoxLayout):
+class FrontLayout(FloatLayout):
     pass
 
 
-class BackLayout(BoxLayout):
+class BackLayout(FloatLayout):
     pass
 
 
@@ -92,9 +93,11 @@ class CurveLayout(ThemableBehavior, FloatLayout, EventDispatcher):
         res.extend(points_1)
         res.extend(points_2)
 
-        t_points = np.arange(0, 1, 0.01)
+        t_points = np.arange(0, 1, 0.02)
         points1 = np.array(res)
         curve = Bz.Curve(t_points, points1)
+
+        # curve = sigmoid(res)
 
         vertices = []
         indices = []
