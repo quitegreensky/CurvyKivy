@@ -3,7 +3,7 @@ from bezier import Bezier as Bz
 from kivymd.theming import ThemableBehavior
 from kivy.lang.builder import Builder
 from kivy.event import EventDispatcher
-from kivy.properties import NumericProperty, ListProperty
+from kivy.properties import NumericProperty, ListProperty, ObjectProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.animation import Animation
@@ -25,6 +25,7 @@ Builder.load_string(
                 mode: "triangle_fan"
                 vertices: root.vertices
                 indices: root.indices
+                texture: root.mesh_texture
 
     BoxLayout:
         id: frontlayout
@@ -47,6 +48,7 @@ class CurveLayout(ThemableBehavior, FloatLayout, EventDispatcher):
     start_pos = ListProperty([0, 0])
     end_pos = ListProperty([0, 1000])
     color = ListProperty()
+    mesh_texture = ObjectProperty()
 
     indices = ListProperty()
     vertices = ListProperty()
@@ -62,6 +64,8 @@ class CurveLayout(ThemableBehavior, FloatLayout, EventDispatcher):
         self.register_event_type("on_left_finish")
         self.register_event_type("on_left_start")
         self.register_event_type("on_left_second_start")
+        self.register_event_type("on_reset_left")
+        self.register_event_type("on_reset_right")
 
     def on_right_finish(self, *args):
         pass
@@ -76,6 +80,12 @@ class CurveLayout(ThemableBehavior, FloatLayout, EventDispatcher):
         pass
 
     def on_left_start(self, *args):
+        pass
+
+    def on_reset_left(self, *args):
+        pass
+
+    def on_reset_right(self, *args):
         pass
 
     def on_left_second_start(self, *args):
@@ -120,12 +130,13 @@ class CurveLayout(ThemableBehavior, FloatLayout, EventDispatcher):
         self.update_mesh(self.start_pos[:], self.end_pos[:], self.curve_pos[:])
 
     def on_touch_up(self, touch):
+        super().on_touch_up(touch)
         distance = touch.x - touch.ox
         if abs(distance) > self.drag_distance:
 
             if distance > 0:
-                start_pos = [self.width + 400, -400]
-                end_pos = [self.width + 400, self.height + 400]
+                start_pos = [self.width + 1000, -400]
+                end_pos = [self.width + 1000, self.height + 400]
                 curve_pos = [self.width + 400, self.curve_pos[1]]
                 self.move_anim("right", curve_pos, start_pos, end_pos)
                 self.dispatch("on_right_start")
@@ -138,22 +149,24 @@ class CurveLayout(ThemableBehavior, FloatLayout, EventDispatcher):
         else:
             if self._state == "right":
                 self.reset_anim([self.width + 400, touch.y])
+                self.dispatch("on_reset_right")
             elif self._state == "left":
                 self.reset_anim([0, touch.y])
+                self.dispatch("on_reset_left")
 
     def move_anim(self, state, curve_pos, start_pos, end_pos):
         anim = Animation(
             curve_pos=curve_pos,
             t="out_quad",
-            d=0.3,
+            d=0.4,
         )
         anim.bind(on_complete=lambda *args: self.dispatch(f"on_{state}_second_start"))
 
-        anim2 = Animation(d=0.2) + Animation(
+        anim2 = Animation(d=0.3) + Animation(
             start_pos=start_pos,
             end_pos=end_pos,
             t="in_quad",
-            d=0.3,
+            d=0.4,
         )
         anim2.bind(on_complete=lambda *args: self.dispatch(f"on_{state}_finish"))
         anim.start(self)
