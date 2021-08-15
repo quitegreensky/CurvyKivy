@@ -11,7 +11,6 @@ from kivy.metrics import dp
 
 Builder.load_string(
     """
-
 <CurveLayout>:
 
     BoxLayout:
@@ -68,9 +67,9 @@ class CurveLayout(FloatLayout, EventDispatcher):
         Clock.schedule_once(self._update)
 
     def _update(self, *args):
-        if self._state=="left":
+        if self._state == "left":
             self.dispatch("on_left_start")
-        elif self._state=="right":
+        elif self._state == "right":
             self.dispatch("on_right_start")
 
     def on_right_finish(self, *args):
@@ -99,7 +98,12 @@ class CurveLayout(FloatLayout, EventDispatcher):
 
     def update_mesh(self, start, end, pos):
         res = []
-        points_1 = [[-self._offset, -self._offset], start, [pos[0] / 2, pos[1] / 2], pos]
+        points_1 = [
+            [-self._offset, -self._offset],
+            start,
+            [pos[0] / 2, pos[1] / 2],
+            pos,
+        ]
         points_2 = [
             pos,
             [pos[0] / 2, (end[1] + pos[1]) / 2],
@@ -159,10 +163,10 @@ class CurveLayout(FloatLayout, EventDispatcher):
                 self.dispatch("on_reset_left")
 
     def move_anim(self, state, curve_pos, start_pos, end_pos):
-        '''
+        """
         The curve has two animations. One for upper and lower corners
         and the other for the middle portion.
-        '''
+        """
         anim = Animation(
             curve_pos=curve_pos,
             t="out_quad",

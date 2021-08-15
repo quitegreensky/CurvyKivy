@@ -4,8 +4,8 @@ from curvelayout import BackLayout
 from kivy.clock import Clock
 from kivy.animation import Animation
 from kivy.metrics import dp
-from label import MyLabel #NOQA
-from background import BackGround #NOQA
+from label import MyLabel  # NOQA
+from background import BackGround  # NOQA
 
 Builder.load_string(
     """
@@ -17,10 +17,10 @@ Builder.load_string(
 
         canvas:
             Color:
-                rgba: 1,1,1,1
+                rgba: 1, 1, 1, 1
             PushMatrix
             Rotate:
-                origin: [root.car_pos[0]+dp(125), root.car_pos[1]+60]
+                origin: [root.car_pos[0] + dp(125), root.car_pos[1] + 60]
                 angle: root.car_angle
 
             Rectangle:
@@ -42,7 +42,7 @@ Builder.load_string(
                 source: "assets/chevron.png"
     MyLabel:
         id: title_label
-        pos_hint: {"center_x" :.5}
+        pos_hint: {"center_x": .5}
         text: "What is Lorem Ipsum?"
         font_size: dp(30)
         y: self.height
@@ -51,12 +51,11 @@ Builder.load_string(
 
     MyLabel:
         id: description_label
-        pos_hint: {"center_x" :.5}
+        pos_hint: {"center_x": .5}
         text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
         font_size: dp(20)
         top: 0
         opacity: 0
-
 
     """
 )
@@ -82,7 +81,7 @@ class BackFloat(BackLayout):
 
     def on_touch_move(self, touch):
         super().on_touch_move(touch)
-        if self._root._state =="left":
+        if self._root._state == "left":
             self.chevron_pos = [touch.x, touch.y - dp(25)]
 
     def reset_chevron(self):

@@ -2,14 +2,12 @@ from kivymd.app import MDApp
 from kivy.lang.builder import Builder
 from curvelayout import CurveLayout
 from kivy.properties import ObjectProperty
-from backfloat import BackFloat #NOQA
-from frontfloat import FrontFloat #NOQA
+from backfloat import BackFloat  # NOQA
+from frontfloat import FrontFloat  # NOQA
 
 kv = """
-
-
 MainLayout:
-    front:front
+    front: front
     back: back
     color: app.theme_cls.primary_color
 
@@ -19,8 +17,6 @@ MainLayout:
     BackFloat:
         id: back
         _root: root
-
-
 """
 
 

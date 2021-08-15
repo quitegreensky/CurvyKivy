@@ -4,27 +4,27 @@ from curvelayout import FrontLayout
 from kivy.clock import Clock
 from kivy.animation import Animation
 from kivy.metrics import dp
-from label import MyLabel #NOQA
+from label import MyLabel  # NOQA
 import numpy as np
 from bezier import Bezier as Bz
 
 Builder.load_string(
     """
 <FrontFloat>
-    title_label:title_label
+    title_label: title_label
 
     canvas:
         Color:
-            rgba: [255/255,0/255,85/255,1]
+            rgba: [255/255, 0/255, 85/255, 1]
         Mesh:
             mode: "triangle_fan"
             vertices: root.vertices
             indices: root.indices
 
         Color:
-            rgba: 1,1,1,1
+            rgba: 1, 1, 1, 1
         Rectangle:
-            pos: root.taxi_x - dp(150) , dp(150)
+            pos: root.taxi_x - dp(150), dp(150)
             size: dp(300), dp(300)
             source: "assets/taxi.png"
 
@@ -38,7 +38,6 @@ Builder.load_string(
         width: dp(300)
         font_size: dp(20)
         opacity: 0
-
 
     """
 )
@@ -61,7 +60,7 @@ class FrontFloat(FrontLayout):
         self.update_mesh(self.start_pos, self.end_pos, self.curve_pos)
 
     def _update(self, *args):
-        self.update_mesh([0, 0], [0, 200], [0, self.height])
+        self.update_mesh([0, 0], [0, dp(200)], [0, self.height])
 
     def show_curve(self):
         self.curve_pos = [0, self.height / 2]
