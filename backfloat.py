@@ -72,7 +72,7 @@ class BackFloat(BackLayout):
 
     def __init__(self, **kw):
         super().__init__(**kw)
-        Clock.schedule_once(self._update)
+        Clock.schedule_once(self._update, 2)
         self.shake_car()
 
     def _update(self, *args):
@@ -122,4 +122,3 @@ class BackFloat(BackLayout):
     def hide_description(self, *args):
         anim = Animation(top=0, d=0.5, t="out_quad", opacity=0)
         anim.start(self.description_label)
-

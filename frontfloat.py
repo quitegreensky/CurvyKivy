@@ -24,7 +24,7 @@ Builder.load_string(
         Color:
             rgba: 1,1,1,1
         Rectangle:
-            pos: root.taxi_x , dp(150)
+            pos: root.taxi_x - dp(150) , dp(150)
             size: dp(300), dp(300)
             source: "assets/taxi.png"
 
@@ -43,13 +43,14 @@ Builder.load_string(
     """
 )
 
+
 class FrontFloat(FrontLayout):
     vertices = ListProperty()
     indices = ListProperty()
     curve_pos = ListProperty()
-    start_pos = ListProperty([0,0])
-    end_pos = ListProperty([0,0])
-    title_label= ObjectProperty()
+    start_pos = ListProperty([0, 0])
+    end_pos = ListProperty([0, 0])
+    title_label = ObjectProperty()
     taxi_x = NumericProperty("-500dp")
 
     def __init__(self, **kw):
@@ -60,42 +61,38 @@ class FrontFloat(FrontLayout):
         self.update_mesh(self.start_pos, self.end_pos, self.curve_pos)
 
     def _update(self, *args):
-        self.update_mesh([0,0], [0,200], [0,self.height])
+        self.update_mesh([0, 0], [0, 200], [0, self.height])
 
     def show_curve(self):
-        self.curve_pos=[0, self.height/2]
+        self.curve_pos = [0, self.height / 2]
         anim = Animation(
-            start_pos = [dp(2000), 0],
-            end_pos = [dp(1000), self.height],            
-            curve_pos = [dp(100), self.height/2], 
-            t="out_quad", 
-            d=0.4
-            )
+            start_pos=[dp(2000), 0],
+            end_pos=[dp(1000), self.height],
+            curve_pos=[self.width / 2, self.height / 2],
+            t="out_quad",
+            d=0.4,
+        )
         anim.start(self)
 
     def hide_curve(self):
         anim = Animation(
-            start_pos = [dp(-200), 0],
-            end_pos = [dp(-200), self.height],            
-            curve_pos = [dp(200), self.height/2], 
-            t="out_quad", 
-            d=0.3
-            )
-        anim += Animation(
-            curve_pos = [0,self.height/2],
-            t="out_quad", 
-            d=0.2            
+            start_pos=[dp(-200), 0],
+            end_pos=[dp(-200), self.height],
+            curve_pos=[dp(200), self.height / 2],
+            t="out_quad",
+            d=0.3,
         )
+        anim += Animation(curve_pos=[0, self.height / 2], t="out_quad", d=0.2)
         anim.start(self)
 
     def update_mesh(self, start, end, pos):
         res = []
-        points_1 = [[-1000, -1000], start, [pos[0] / 2, pos[1] / 2], pos]
+        points_1 = [[-dp(1000), -dp(1000)], start, [pos[0] / 2, pos[1] / 2], pos]
         points_2 = [
             pos,
             [pos[0] / 2, (end[1] + pos[1]) / 2],
             end,
-            [-1000, end[1] + 1000],
+            [-dp(1000), end[1] + dp(1000)],
         ]
         res.extend(points_1)
         res.extend(points_2)
@@ -117,35 +114,25 @@ class FrontFloat(FrontLayout):
         self.vertices = vertices
 
     def show_title(self):
-        anim = Animation(
-            opacity= 1,
-            t = "out_quad",
-            d = 0.3,
-            x = dp(130)
-        )
+        anim = Animation(opacity=1, t="out_quad", d=0.3, center_x=self.width / 2)
         anim.start(self.title_label)
 
     def hide_title(self):
-        anim = Animation(
-            opacity= 0,
-            t = "out_quad",
-            d = 0.3,
-            right = 0
-        )        
+        anim = Animation(opacity=0, t="out_quad", d=0.3, right=0)
         anim.start(self.title_label)
 
     def show_taxi(self):
         anim = Animation(
-            taxi_x = dp(120),
-            t = "out_quad",
-            d = 0.3,            
+            taxi_x=self.width / 2,
+            t="out_quad",
+            d=0.3,
         )
         anim.start(self)
 
     def hide_taxi(self):
         anim = Animation(
-            taxi_x = dp(-500),
-            t = "out_quad",
-            d = 0.3,            
+            taxi_x=dp(-500),
+            t="out_quad",
+            d=0.3,
         )
         anim.start(self)

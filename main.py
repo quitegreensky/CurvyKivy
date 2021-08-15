@@ -15,7 +15,8 @@ kv = """
 
 MainLayout:
     front:front
-    back: back 
+    back: back
+    color: app.theme_cls.primary_color
 
     FrontFloat:
         id: front
@@ -35,6 +36,12 @@ class MainLayout(CurveLayout):
     def __init__(self, **kw):
         super().__init__(**kw)
 
+    def on_left_start(self, *args):
+        self.back.reset_chevron()
+        self.front.hide_curve()
+        self.front.hide_title()
+        self.front.hide_taxi()
+
     def on_left_second_start(self, *args):
         self.back.show_car()
         self.back.show_title()
@@ -45,25 +52,19 @@ class MainLayout(CurveLayout):
         self.front.show_curve()
         self.front.show_taxi()
 
-    def on_right_finish(self, *args):
-        self.back.reset_chevron()
-
-    def on_left_start(self, *args):
-        self.back.reset_chevron()
-        self.front.hide_curve()
-        self.front.hide_title()
-        self.front.hide_taxi()
-
-    # def on_left_second_start(self, *args):
-
-    def on_reset_left(self, *args):
-        self.back.reset_chevron()
-
     def on_right_second_start(self, *args):
         self.back.hide_car()
         self.back.hide_title()
         self.back.hide_description()
         self.front.show_title()
+
+    def on_right_finish(self, *args):
+        self.back.reset_chevron()
+
+    # def on_left_second_start(self, *args):
+
+    def on_reset_left(self, *args):
+        self.back.reset_chevron()
 
 
 class MeshTestApp(MDApp):
