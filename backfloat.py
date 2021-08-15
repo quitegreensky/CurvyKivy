@@ -4,8 +4,8 @@ from curvelayout import BackLayout
 from kivy.clock import Clock
 from kivy.animation import Animation
 from kivy.metrics import dp
-from label import MyLabel
-
+from label import MyLabel #NOQA
+from background import BackGround #NOQA
 
 Builder.load_string(
     """

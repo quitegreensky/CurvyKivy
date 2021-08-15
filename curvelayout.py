@@ -1,7 +1,6 @@
 from kivy.clock import Clock
 import numpy as np
 from bezier import Bezier as Bz
-from kivymd.theming import ThemableBehavior
 from kivy.lang.builder import Builder
 from kivy.event import EventDispatcher
 from kivy.properties import NumericProperty, ListProperty, ObjectProperty, ColorProperty

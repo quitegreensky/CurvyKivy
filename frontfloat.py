@@ -4,7 +4,7 @@ from curvelayout import FrontLayout
 from kivy.clock import Clock
 from kivy.animation import Animation
 from kivy.metrics import dp
-from label import MyLabel
+from label import MyLabel #NOQA
 import numpy as np
 from bezier import Bezier as Bz
 

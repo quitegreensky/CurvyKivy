@@ -1,14 +1,9 @@
 from kivymd.app import MDApp
 from kivy.lang.builder import Builder
-from curvelayout import CurveLayout, FrontLayout, BackLayout
-from kivy.properties import ListProperty, NumericProperty, ObjectProperty
-from background import BackGround
-from kivy.clock import Clock
-from kivy.animation import Animation
-from kivy.metrics import dp
-from kivy.graphics import Rectangle
-from backfloat import BackFloat
-from frontfloat import FrontFloat
+from curvelayout import CurveLayout
+from kivy.properties import ObjectProperty
+from backfloat import BackFloat #NOQA
+from frontfloat import FrontFloat #NOQA
 
 kv = """
 
